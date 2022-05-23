@@ -1,0 +1,14 @@
+@import "../../variables.scss";
+
+.log-in{
+    @extend %font-roboto;
+    @extend %white-button;
+    width: 100px;
+    height: 35px;
+}
+.getting-started{
+    @extend %font-roboto;
+    @extend %purple-button;
+    width: 100px;
+    height: 35px;
+}

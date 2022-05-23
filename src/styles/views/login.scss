@@ -1,0 +1,11 @@
+@import "../variables.scss";
+
+.form-login{
+    @extend %flex-column;
+    width: 40vw;
+    gap:3vh;
+}
+.form-login-content{
+    display: flex;
+    justify-content: center;
+}

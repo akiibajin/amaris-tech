@@ -1,0 +1,10 @@
+@import "../variables.scss";
+
+.list-parent{
+    @extend %flex-row;
+    justify-content: space-between;
+}
+.buttons-list{
+    @extend %flex-row;
+    gap: 1vw;
+}

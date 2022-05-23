@@ -1,0 +1,13 @@
+@import "../variables.scss";
+
+.form-custom-settings{
+    @extend %flex-column;
+    gap: 5px;
+    width: 40vw;
+}
+
+.form-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

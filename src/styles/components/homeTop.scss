@@ -1,0 +1,23 @@
+@import "../variables.scss";
+
+.home-top{
+    display: grid;
+    grid-template-columns: 50vw 50vw;
+}
+
+.home-top-content-title{
+    font-weight: bolder;
+    font-size: xx-large;
+}
+.home-top-content-span{
+    color: gray;
+    font-size: small;
+}
+.home-top-start-button{
+    @extend %purple-button;
+    border-radius: 60px;
+    height: 40px;
+}
+.additional-top-home-images{
+    height: 200px;
+}

@@ -1,0 +1,14 @@
+@import '../../variables.scss';
+ul{
+    list-style: none;
+}
+.nav-pages {
+  @extend %flex-row;
+  padding-top: 8px;
+  justify-content: space-evenly;
+  gap: 3vw;
+}
+.element-nav-pages {
+    @extend %font-roboto;
+    font-weight: bold;
+}
