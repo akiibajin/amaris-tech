@@ -1,11 +1,14 @@
+import { Button } from "@mui/material";
+import { AddBox } from "@mui/icons-material";
 import React from "react";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import MUITextEditorControlled from "../components/helpers/MUITextEditorControlled";
 import SubmitButton from "../components/helpers/SubmitButton";
 import { postHomeTopContent } from "../features/homeTop/homeTopAPI";
 import { selectHomeTop } from "../features/homeTop/homeTopSlice";
-import "../styles/views/customSettings.scss"
+import "../styles/views/customSettings.scss";
+import { keyboard } from "@testing-library/user-event/dist/types/keyboard";
 export default function CustomSettings() {
   const {
     aHrefcontent,
@@ -14,7 +17,9 @@ export default function CustomSettings() {
     contentTitle,
     additionalContent,
   } = useAppSelector(selectHomeTop);
-  const [additionalContentFields, setAdditionalContentFields] = React.useState<string[]>([])
+  const [additionalContentFields, setAdditionalContentFields] = React.useState<
+    number[]
+  >([]);
   const dispatch = useAppDispatch();
   const {
     control,
@@ -22,9 +27,18 @@ export default function CustomSettings() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-  const handleOnSubmit = handleSubmit((data) => {
+  const handleOnSubmit = handleSubmit((data: any) => {
+    data.additionalContent = Object.entries(data)
+      .filter((element) => {
+        const [key, value] = element;
+        return key.includes("additionalContent-");
+      })
+      .map((element) => {
+        const [key, value] = element;
+        return value;
+      });
     dispatch(postHomeTopContent(data));
-    console.log(data)
+    console.log(data);
     reset();
   });
   return (
@@ -86,24 +100,59 @@ export default function CustomSettings() {
             },
           }}
         />
-        <MUITextEditorControlled
-          control={control}
-          defaultValue=""
-          errors={errors}
-          label="You can add extra information or Imgs Here"
-          name="additionalContent"
+        {additionalContent &&
+          additionalContent.map((content, index) => (
+            <MUITextEditorControlled
+              key={content}
+              control={control}
+              defaultValue={content}
+              errors={errors}
+              label="You can add extra information or Imgs Here"
+              name={`additionalContent-${index}`}
+              color="secondary"
+              rules={{
+                name: "additionalContent",
+                rules: {
+                  required: { value: true, message: "Field Required" },
+                },
+              }}
+            />
+          ))}
+        {additionalContentFields &&
+          additionalContentFields.map((content, index) => (
+            <MUITextEditorControlled
+              key={content+index+1}
+              control={control}
+              defaultValue=""
+              errors={errors}
+              label="You can add extra information or Imgs Here"
+              name={`additionalContent-${
+                additionalContent?.length ?? additionalContentFields.length + 1
+              }`}
+              color="secondary"
+              rules={{
+                name: "additionalContent",
+                rules: {
+                  required: { value: true, message: "Field Required" },
+                },
+              }}
+            />
+          ))}
+        <Button
+          onClick={() =>
+            setAdditionalContentFields((content) => [
+              ...content,
+              additionalContentFields.length + 1,
+            ])
+          }
+        >
+          <AddBox />
+          Add Content
+        </Button>
+        <SubmitButton
+          className="home-top-submit"
           color="secondary"
-          rules={{
-            name: "additionalContent",
-            rules: {
-              required: { value: true, message: "Field Required" },
-            },
-          }}
-        />
-        <SubmitButton 
-        className="home-top-submit"
-        color="secondary"
-        content="Update the first Section!"
+          content="Update the first Section!"
         />
       </form>
     </section>
